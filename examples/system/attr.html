@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Tables - Azzara Bootstrap 4 Admin Dashboard</title>
+	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+	<link rel="icon" href="../../assets/img/icon.ico" type="image/x-icon"/>
+
+	<!-- Fonts and icons -->
+	<script src="../../assets/js/plugin/webfont/webfont.min.js"></script>
+	<script>
+        WebFont.load({
+            google: {"families":["Open+Sans:300,400,600,700"]},
+            custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands"], urls: ['../../assets/css/fonts.css']},
+            active: function() {
+                sessionStorage.fonts = true;
+            }
+        });
+	</script>
+
+	<!-- CSS Files -->
+	<link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../assets/css/azzara.min.css">
+	<!-- CSS Just for demo purpose, don't include it in your project -->
+	<link rel="stylesheet" href="../../assets/css/demo.css">
+</head>
+<style>
+	.main-panel1 {
+		position: relative;
+		width: calc(100% - 0px);
+		height: 100vh;
+		min-height: 100%;
+		float: right;
+		transition: all .3s;
+	}
+
+	.page-inner1 {
+		padding-right: 0.2rem;
+		padding-left: 0.2rem;
+		padding-top: 0.2rem;
+	}
+
+	.page-header1 {
+		padding-bottom: 0.5rem;
+	}
+</style>
+<body>
+<div class="wrapper">
+	<div class="main-panel main-panel1" >
+		<div class="content">
+			<div class="page-inner page-inner1">
+				<div class="page-header page-header1" style="margin-bottom: 0px">
+					<!--<h4 class="page-title">DataTables.Net</h4>-->
+					<ul class="breadcrumbs">
+						<li class="nav-home">
+							<a href="#">
+								<i class="flaticon-home"></i>
+							</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">系统设置</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">属性设置</a>
+						</li>
+					</ul>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<div class="d-flex align-items-center" style="margin-left: 20px; margin-right: 20px;">
+									<h4 class="card-title">属性列表</h4>
+									<button class="btn btn-primary btn-sm ml-auto" data-toggle="modal" data-target="#addRowModal" id="addMenuBtn">
+										<i class="fa fa-plus"></i>
+										增加
+									</button>
+								</div>
+							</div>
+							<div class="card-body">
+								<!-- Modal -->
+								<div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top: 65px;">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header no-bd">
+												<h5 class="modal-title">
+														<span class="fw-mediumbold">
+														新增</span>
+													<span class="fw-light">
+															属性
+														</span>
+												</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<!--<p class="small">Create a new row using this form, make sure you fill them all</p>-->
+												<form>
+													<div class="row">
+														<div class="col-md-6 pr-0">
+															<div class="form-group form-group-default">
+																<label>表名称</label>
+																<input id="addName" type="text" class="form-control" placeholder="表名称">
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="form-group form-group-default">
+																<label>表属性值</label>
+																<input id="addType" type="text" class="form-control" placeholder="表类型">
+															</div>
+														</div>
+														<div class="col-md-6 pr-0">
+															<div class="form-group form-group-default">
+																<label>Key值</label>
+																<input id="addKey" type="text" class="form-control" placeholder="Key值">
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="form-group form-group-default">
+																<label>Value值</label>
+																<input id="addValue" type="text" class="form-control" placeholder="Value值">
+															</div>
+														</div>
+
+														<div class="col-md-6">
+															<div class="form-group form-group-default">
+																<label>状态</label>
+																<select class="form-control form-control" id="addStatus">
+																	<option value="10">有效</option>
+																	<option value="20">失效</option>
+																</select>
+															</div>
+														</div>
+														<div class="col-sm-12">
+															<div class="form-group form-group-default">
+																<label>描述</label>
+																<input id="addMark" type="text" class="form-control" placeholder="描述">
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+											<div class="modal-footer no-bd">
+												<button type="button" id="addRowButton" class="btn btn-primary">确认</button>
+												<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="table-responsive">
+									<table id="add-row" class="display table table-striped table-hover" >
+										<thead style="background-color: #ccc">
+										<tr>
+											<!--<th style="width: 7%">ID</th>-->
+											<th>表名</th>
+											<th>类型</th>
+											<th>Key值</th>
+											<th>Value值</th>
+											<th>状态</th>
+											<th>描述</th>
+											<th style="width: 10%">Action</th>
+										</tr>
+										</thead>
+										</tfoot>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<!-- End Custom template -->
+</div>
+<!--   Core JS Files   -->
+<script src="../../assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="../../assets/js/core/popper.min.js"></script>
+<script src="../../assets/js/core/bootstrap.min.js"></script>
+
+<script src="../../assets/js/common.js"></script>
+<!-- jQuery UI -->
+<script src="../../assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="../../assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<!-- Bootstrap Toggle -->
+<script src="../../assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+<!-- Bootstrap Notify -->
+<script src="../../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+<!-- jQuery Scrollbar -->
+<script src="../../assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<!-- Datatables -->
+<script src="../../assets/js/plugin/datatables/datatables.min.js"></script>
+<!-- Azzara JS -->
+<script src="../../assets/js/ready.min.js"></script>
+<!-- Azzara DEMO methods, don't include it in your project! -->
+<script src="../../assets/js/setting-demo.js"></script>
+
+<!-- alert -->
+<script src="../../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script >
+    function initTable() {
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:8089/study/attr/findAll",
+            dataType:"json",
+            success:function(res){
+                if (res.code == 1 && res.data.length > 0) {
+                    writeTable(res.data);
+                } else if (res.code == 1 && res.data.length == 0) {
+                    alert("no data")
+                } else {
+                    alert(res.message)
+                }
+            }
+        });
+    }
+
+    function writeTable(arr) {
+        console.log(arr);
+        for (var i = 0; i < arr.length; i++) {
+            $('#add-row').dataTable().fnAddData([
+                // arr[i].id,
+                arr[i].name,
+                arr[i].type,
+                arr[i].key,
+                arr[i].value,
+                getStatus(arr[i].status),
+                arr[i].description,
+                actionHtml(arr[i].id)
+            ]);
+        }
+    }
+
+    function getStatus(status) {
+        if (status == '10') {
+            return "有效"
+        } else if (status == '20') {
+            return "关闭"
+        } else if (status == '30') {
+            return "失效"
+        } else {
+            return "未匹配"
+        }
+    }
+
+    function actionHtml(id) {
+        var action = '<td> ' +
+            '<div class="form-button-action"> ' +
+            '<button type="button" onclick="updateMenu('+ id +')" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> ' +
+            '<i class="fa fa-edit"></i> ' +
+            '</button> ' +
+            '<button type="button" onclick="deleteMenu('+ id +')" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> ' +
+            '<i class="fa fa-times"></i> ' +
+            '</button> ' +
+            '</div> ' +
+            '</td>';
+        return action;
+    }
+
+    var addMenuBtn = document.getElementById("addMenuBtn");
+    addMenuBtn.onclick = function(){
+        document.getElementById("addMenuBtn").setAttribute("btnType","save");
+        document.getElementById('addStatus').value="10";
+    }
+
+    function updateMenu(id) {
+        document.getElementById("addMenuBtn").click();
+        document.getElementById("addMenuBtn").setAttribute("btnType","update");
+        document.getElementById("addMenuBtn").setAttribute("menuId",id);
+
+        $.ajax({
+            url: "http://localhost:8089/study/attr/findById/" + id,
+            type: "GET",
+            dataType: "json",
+            success:function(res){
+                if(res.code == 1){
+                    console.log('get success!')
+                    //initTable();
+                    $("#addName").val(res.data.name);
+                    $("#addType").val(res.data.type);
+                    $("#addKey").val(res.data.key);
+                    $("#addValue").val(res.data.value);
+                    document.getElementById('addStatus').value=res.data.status;
+                    $("#addMark").val(res.data.description);
+                }else{
+                    console.log('get error!')
+                }
+            },
+            error: function (err) {
+                tips("get failed", err.responseJSON.error);
+            }
+        });
+    }
+
+    function deleteMenu(id) {
+
+        swal("", '确认是否删除？', {
+            //icon : "error",
+            buttons: {
+                confirm: {
+                    className : 'btn btn-danger'
+                }
+            },
+        }).then(
+            function() {
+                $.ajax({
+                    url: "http://localhost:8089/study/attr/deleteById",
+                    type: "post",
+                    dataType: "json",
+                    // contentType: 'application/json;charset=utf-8',
+                    data: {id: id},
+                    success:function(res){
+                        if(res.code == 1){
+                            tips("删除成功！", "");
+                            console.log('delete success!')
+                            //initTable();
+                        }else{
+                            tips("删除失败！", "");
+                            console.log('delete error!')
+                        }
+                    },
+                    error: function (err) {
+                        tips("delete failed", err.responseJSON.error);
+                    }
+                });
+            }
+        ).finally(function () {
+            window.location.reload('#basic-datatables');
+        });
+    }
+
+    $(document).ready(function() {
+        $('#basic-datatables').DataTable(initTable());
+
+        // Add Row
+        $('#add-row').DataTable({
+            "pageLength": 10,
+        });
+
+        function addOrUpdate(type, id) {
+            var data = {
+                id : id,
+                name: $("#addName").val(),
+                type: $("#addType").val(),
+                key: $("#addKey").val(),
+                value: $("#addValue").val(),
+                status: document.getElementById("addStatus").value,
+                description: $("#addMark").val() };
+
+            $.ajax({
+                url: "http://localhost:8089/study/attr/" + type,
+                type: "post",
+                dataType: "json",
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify(data),
+                success:function(res){
+                    if(res.code == 1){
+                        var arr = new Array();
+                        arr.push(res.data)
+
+                        if (type == "update") {
+                            window.location.reload('#basic-datatables');
+                        } else {
+                            writeTable(arr);
+                        }
+
+                        $('#addRowModal').modal('hide');
+                    } else if (res.code == 0) {
+                        alert(res.message)
+                    } else {
+                        alert(res.error)
+                    }
+                },
+                error: function (err) {
+                    //notify();
+                    tips("Save failed", err.responseJSON.error);
+                }
+            });
+        }
+
+        $('#addRowButton').click(function () {
+            var btnType = document.getElementById("addMenuBtn").getAttribute("btnType");
+            var menuId = document.getElementById("addMenuBtn").getAttribute("menuId");
+            addOrUpdate(btnType, menuId)
+        });
+    });
+
+    function tips(title, content) {
+        swal(title, content, {
+            //icon : "error",
+            buttons: {
+                confirm: {
+                    className : 'btn btn-danger'
+                }
+            },
+        });
+    }
+
+</script>
+</body>
+</html>
