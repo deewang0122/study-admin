@@ -215,8 +215,9 @@
 									<div class="user-box">
 										<div class="avatar-lg"><img src="../assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
 										<div class="u-text">
-											<h4>Hizrian</h4>
-											<p class="text-muted">hello@example.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+											<h4 id="loginUserName">Hizrian</h4>
+											<p class="text-muted" id="loginTelephone">hello@example.com</p>
+											<a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
 										</div>
 									</div>
 								</li>
@@ -247,100 +248,7 @@
 				<div class="sidebar-content">
 
 					<ul class="nav" id="menuNav">
-						<!--<li class="nav-item active">-->
-							<!--<a href="index.html">-->
-								<!--<i class="fas fa-home"></i>-->
-								<!--<p>主页</p>-->
-								<!--<span class="badge badge-count">5</span>-->
-							<!--</a>-->
-						<!--</li>-->
 
-						<!--<li class="nav-item">-->
-							<!--<a data-toggle="collapse" href="#settings">-->
-								<!--<i class="fas fa-pen-square"></i>-->
-								<!--<p>系统设置</p>-->
-								<!--<span class="caret"></span>-->
-							<!--</a>-->
-							<!--<div class="collapse" id="settings">-->
-								<!--<ul class="nav nav-collapse">-->
-									<!--<li>-->
-										<!--<a href="#" onclick="changeContent('system/users.html')">-->
-											<!--<span class="sub-item">用户管理</span>-->
-										<!--</a>-->
-									<!--</li>-->
-									<!--<li>-->
-										<!--<a href="#" onclick="changeContent('system/menu.html')">-->
-											<!--<span class="sub-item">菜单管理</span>-->
-										<!--</a>-->
-									<!--</li>-->
-									<!--<li>-->
-										<!--<a href="#" onclick="changeContent('system/attr.html')">-->
-											<!--<span class="sub-item">属性设置</span>-->
-										<!--</a>-->
-									<!--</li>-->
-								<!--</ul>-->
-							<!--</div>-->
-						<!--</li>-->
-
-						<!--<li class="nav-item">-->
-							<!--<a href="widgets.html">-->
-								<!--<i class="fas fa-desktop"></i>-->
-								<!--<p>Widgets</p>-->
-								<!--<span class="badge badge-count badge-success">4</span>-->
-							<!--</a>-->
-						<!--</li>-->
-
-						<!--<li class="nav-item">-->
-							<!--<a data-toggle="collapse" href="#submenu">-->
-								<!--<i class="fas fa-bars"></i>-->
-								<!--<p>Menu Levels</p>-->
-								<!--<span class="caret"></span>-->
-							<!--</a>-->
-							<!--<div class="collapse" id="submenu">-->
-								<!--<ul class="nav nav-collapse">-->
-									<!--<li>-->
-										<!--<a data-toggle="collapse" href="#subnav1">-->
-											<!--<span class="sub-item">Level 1</span>-->
-											<!--<span class="caret"></span>-->
-										<!--</a>-->
-										<!--<div class="collapse" id="subnav1">-->
-											<!--<ul class="nav nav-collapse subnav">-->
-												<!--<li>-->
-													<!--<a href="#">-->
-														<!--<span class="sub-item">Level 2</span>-->
-													<!--</a>-->
-												<!--</li>-->
-												<!--<li>-->
-													<!--<a href="#">-->
-														<!--<span class="sub-item">Level 2</span>-->
-													<!--</a>-->
-												<!--</li>-->
-											<!--</ul>-->
-										<!--</div>-->
-									<!--</li>-->
-									<!--<li>-->
-										<!--<a data-toggle="collapse" href="#subnav2">-->
-											<!--<span class="sub-item">Level 1</span>-->
-											<!--<span class="caret"></span>-->
-										<!--</a>-->
-										<!--<div class="collapse" id="subnav2">-->
-											<!--<ul class="nav nav-collapse subnav">-->
-												<!--<li>-->
-													<!--<a href="#">-->
-														<!--<span class="sub-item">Level 2</span>-->
-													<!--</a>-->
-												<!--</li>-->
-											<!--</ul>-->
-										<!--</div>-->
-									<!--</li>-->
-									<!--<li>-->
-										<!--<a href="#">-->
-											<!--<span class="sub-item">Level 1</span>-->
-										<!--</a>-->
-									<!--</li>-->
-								<!--</ul>-->
-							<!--</div>-->
-						<!--</li>-->
 					</ul>
 				</div>
 			</div>
@@ -436,13 +344,37 @@
 <!--<script src="../assets/js/setting-demo.js"></script>-->
 <!--<script src="../assets/js/demo.js"></script>-->
 
-	<!-- alert -->
-	<script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<!-- alert -->
+<script src="../assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
+        initLoginUser();
         initMenus();
 	});
+
+    function initLoginUser() {
+        $.ajax({
+            type:"GET",
+            url:"http://localhost:8089/study/home/getLoginUser",
+            dataType:"json",
+            // data: {status: 10, offset: offset, pageSize: pageSize == undefined ? 10 : pageSize},
+            success:function(res){
+                if (res.code == 1) {
+                    $("#loginUserName").text(res.data.name + "|" + res.data.loginCode);
+                    $("#loginTelephone").text(res.data.telephone + "|" + res.data.loginCode)
+
+                } else if (res.code == 1 && res.data.length == 0) {
+                    alert("no data")
+                } else {
+                    alert(res.message)
+                }
+            },
+            error: function (err) {
+                tips("Get Failed", err.responseJSON.message);
+            }
+        });
+	}
 
     function initMenus() {
         $.ajax({
